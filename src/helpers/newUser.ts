@@ -8,11 +8,13 @@ export default async function (userInfo: User) {
     })
   ).json()
 
-  return data as {
-    firstName: string
-    lastName: string
-    patronymic?: string
-    class?: string
-    token: string
-  }
+  return data as
+    | {
+        firstName: string
+        lastName: string
+        patronymic?: string
+        class?: string
+        token: string
+      }
+    | Error
 }

@@ -28,10 +28,10 @@ function Navbar() {
           <a href="users" role="tab" className="tab tab-active">
             Users
           </a>
-          <a href="#" role="tab" className="tab">
+          <a href="records" role="tab" className="tab">
             Tab 2
           </a>
-          <a href="#" role="tab" className="tab">
+          <a href="books" role="tab" className="tab">
             Tab 3
           </a>
         </div>

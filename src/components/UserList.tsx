@@ -27,24 +27,28 @@ export default function () {
 }
 
 function AddUser() {
-  const [usrInf, setUsrInf] = useAtom(userInfo)
+  const [, setUsrInf] = useAtom(userInfo)
   return (
     <button
       className="btn btn-xs"
       onClick={async (e) => {
+        const getInput = (i: number) =>
+          (e.currentTarget as HTMLElement).parentElement?.parentElement
+            ?.children[i].firstChild as HTMLInputElement
         const user = Object.fromEntries(
           [1, 2, 3, 4].map((i) => {
-            const { data, value } = (e.target as HTMLElement).parentElement
-              ?.parentElement?.children[i].children[0] as HTMLInputElement & {
-              data: string
-              value: string
-            }
-            return [data, value]
+            const input = getInput(i)
+            const a = [
+              input.attributes.getNamedItem('data')?.value,
+              input.value,
+            ]
+            input.value = ''
+            return a
           })
         )
 
-        console.log(user, await newUser(user))
-        setUsrInf(filterOutValues({ ...usrInf }))
+        await newUser(user)
+        setUsrInf(filterOutValues({}))
       }}
     >
       Add
