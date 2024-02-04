@@ -1,7 +1,9 @@
 import { Suspense } from 'preact/compat'
 import { User } from 'types/User'
 import { useAtom } from 'jotai'
-import UserComp from 'components/User'
+import UserRow from 'components/User'
+import filterOutValues from 'helpers/filterOutValues'
+import newUser from 'helpers/newUser'
 import userInfo from 'atoms/userInfo'
 import userList from 'atoms/userList'
 
@@ -10,19 +12,11 @@ export default function () {
     <table className="table table-xs">
       <thead>
         <tr>
-          <th></th>
-          <th>
-            <SearchField placeholder="firstName" />
-          </th>
-          <th>
-            <SearchField placeholder="lastName" />
-          </th>
-          <th>
-            <SearchField placeholder="patronymic" />
-          </th>
-          <th>
-            <SearchField placeholder="class" />
-          </th>
+          <th children={<AddUser />} />
+          <th children={<SearchField p="Name" d="firstName" />} />
+          <th children={<SearchField p="Surname" d="lastName" />} />
+          <th children={<SearchField p="Patronymic" d="patronymic" />} />
+          <th children={<SearchField p="Class" d="class" />} />
         </tr>
       </thead>
       <Suspense fallback={<p>Loading...</p>}>
@@ -32,24 +26,54 @@ export default function () {
   )
 }
 
-function List() {
-  const [userListData] = useAtom(userList)
-  const filteredUserList = userListData.map((user) => {
-    // eslint-disable-next-line prefer-const
-    let { firstName, lastName, patronymic, class: userClass } = user
-    patronymic = patronymic || ''
-    userClass = userClass || ''
-    return {
-      firstName,
-      lastName,
-      patronymic,
-      class: userClass,
-    }
-  })
-  return <tbody>{filteredUserList.map((user, id) => UserComp(id, user))}</tbody>
+function AddUser() {
+  const [usrInf, setUsrInf] = useAtom(userInfo)
+  return (
+    <button
+      className="btn btn-xs"
+      onClick={async (e) => {
+        const user = Object.fromEntries(
+          [1, 2, 3, 4].map((i) => {
+            const { data, value } = (e.target as HTMLElement).parentElement
+              ?.parentElement?.children[i].children[0] as HTMLInputElement & {
+              data: string
+              value: string
+            }
+            return [data, value]
+          })
+        )
+
+        console.log(user, await newUser(user))
+        setUsrInf(filterOutValues({ ...usrInf }))
+      }}
+    >
+      Add
+    </button>
+  )
 }
 
-function SearchField({ placeholder }: { placeholder: keyof User }) {
+function List() {
+  const [userListData] = useAtom(userList)
+  const filteredUserList = userListData.map((user) => ({
+    firstName: user.firstName,
+    lastName: user.lastName,
+    patronymic: user.patronymic || '',
+    class: user.class || '',
+    token: user.token,
+  }))
+
+  // this is awful, i need to sleep ...
+
+  return <tbody>{filteredUserList.map((user, id) => UserRow(id, user))}</tbody>
+}
+
+function SearchField({
+  p: placeholder,
+  d: data,
+}: {
+  p?: string
+  d?: keyof User
+}) {
   let timing: number = 0
   const [usrInf, setUsrInf] = useAtom(userInfo)
 
@@ -57,14 +81,15 @@ function SearchField({ placeholder }: { placeholder: keyof User }) {
     <input
       type="text"
       placeholder={placeholder}
+      data={data}
       className="input input-xs w-full max-w-xs"
       onInput={(e) => {
         timing = e.timeStamp
         setTimeout(() => {
           if (timing != e.timeStamp) return ''
-          const { placeholder, value } = e.target as HTMLInputElement
+          const { value } = e.target as HTMLInputElement
 
-          setUsrInf({ ...usrInf, [placeholder]: value })
+          setUsrInf(filterOutValues({ ...usrInf, [data as string]: value }))
         }, 300)
       }}
     />

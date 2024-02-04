@@ -6,7 +6,7 @@ export default function () {
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto max-w-prose p-10 prose">
+      <div className="container max-w-2xl mx-auto p-10">
         <Suspense fallback={<p>Loading...</p>}>
           <Router>
             <Route path="/users" component={UserList} />
