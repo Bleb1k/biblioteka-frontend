@@ -1,7 +1,5 @@
-export type User = {
-  firstName?: string
-  lastName?: string
-  patronymic?: string
+export type Book = {
+  name?: string
+  author?: string
   token?: string
-  class?: string
 }

@@ -1,6 +1,6 @@
 import { Suspense } from 'preact/compat'
-import { User } from 'types/User'
 import { useAtom } from 'jotai'
+import SearchField from 'components/SearchField'
 import UserRow from 'components/User'
 import filterOutValues from 'helpers/filterOutValues'
 import newUser from 'helpers/newUser'
@@ -69,33 +69,4 @@ function List() {
   // this is awful, i need to sleep ...
 
   return <tbody>{filteredUserList.map((user, id) => UserRow(id, user))}</tbody>
-}
-
-function SearchField({
-  p: placeholder,
-  d: data,
-}: {
-  p?: string
-  d?: keyof User
-}) {
-  let timing: number = 0
-  const [usrInf, setUsrInf] = useAtom(userInfo)
-
-  return (
-    <input
-      type="text"
-      placeholder={placeholder}
-      data={data}
-      className="input input-xs w-full max-w-xs"
-      onInput={(e) => {
-        timing = e.timeStamp
-        setTimeout(() => {
-          if (timing != e.timeStamp) return ''
-          const { value } = e.target as HTMLInputElement
-
-          setUsrInf(filterOutValues({ ...usrInf, [data as string]: value }))
-        }, 300)
-      }}
-    />
-  )
 }

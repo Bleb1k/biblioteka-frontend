@@ -24,15 +24,23 @@ function Navbar() {
         <a className="btn btn-ghost text-xl">Biblioteka</a>
       </div>
       <div className="navbar-center">
-        <div role="tablist" className="tabs tabs-bordered">
+        <div
+          role="tablist"
+          className="tabs tabs-bordered"
+          onClick={(e) =>
+            [0, 1, 2].forEach((a) => {
+              console.log(e.currentTarget.children[a])
+            })
+          }
+        >
           <a href="users" role="tab" className="tab tab-active">
             Users
           </a>
           <a href="records" role="tab" className="tab">
-            Tab 2
+            Records
           </a>
           <a href="books" role="tab" className="tab">
-            Tab 3
+            Books
           </a>
         </div>
       </div>
