@@ -1,7 +1,11 @@
 import { User } from 'types/User'
+import { useAtom } from 'jotai'
 import DeleteButton from 'components/DeleteButton'
 import TextField from 'components/TextField'
+import deleteUser from 'helpers/deleteUser'
 import updateUser from 'helpers/updateUser'
+import userInfo from 'atoms/userInfo'
+import userList from 'atoms/userList'
 
 export default function UserRow(
   id: number,
@@ -14,9 +18,9 @@ export default function UserRow(
   }
 ) {
   const { token } = user
-  // const getUserId = (e: Event) =>
-  //   Number((e.currentTarget as HTMLElement).firstElementChild?.textContent) - 1
-  // const getUser = (e: Event) => filteredUserList[getUserId(e)] as User
+  const [usrInf, setUsrInf] = useAtom(userInfo)
+  const [usrLst] = useAtom(userList)
+
   const getCellIndex = (e: Event) =>
     ((e.target as HTMLElement).parentElement as HTMLTableCellElement).cellIndex
   const getPlaceholder = ({ e, i }: { e: Event; i?: number }) =>
@@ -50,7 +54,21 @@ export default function UserRow(
       <TextField p={user.lastName} />
       <TextField p={user.patronymic} />
       <TextField p={user.class} />
-      <DeleteButton />
+      <DeleteButton
+        fn={async (e) => {
+          await deleteUser(
+            usrLst[
+              Number(
+                (
+                  (e.currentTarget as HTMLElement).parentElement?.parentElement
+                    ?.firstChild as HTMLElement
+                ).textContent
+              ) - 1
+            ].token
+          )
+          setUsrInf({ ...usrInf })
+        }}
+      />
     </tr>
   )
 }

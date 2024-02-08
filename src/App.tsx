@@ -1,5 +1,6 @@
 import { Route, Router } from 'preact-router'
 import { Suspense } from 'preact/compat'
+import BookList from 'components/BookList'
 import Navbar from 'components/Navbar'
 import UserList from 'components/UserList'
 
@@ -12,7 +13,7 @@ export default function () {
           <Router>
             <Route path="/users" component={UserList} />
             <Route path="/records" component={UserList} />
-            <Route path="/books" component={UserList} />
+            <Route path="/books" component={BookList} />
           </Router>
         </Suspense>
       </div>

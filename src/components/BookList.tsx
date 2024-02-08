@@ -1,13 +1,14 @@
+import { Book } from 'types/Book'
 import { Suspense } from 'preact/compat'
-import { User } from 'types/User'
 import { useAtom } from 'jotai'
 import DeleteButton from 'components/DeleteButton'
 import SearchField from 'components/SearchField'
 import TextField from 'components/TextField'
 import bookInfo from 'atoms/bookInfo'
 import bookList from 'atoms/bookList'
+import deleteBook from 'helpers/deleteBook'
 import newBook from 'helpers/newBook'
-import updateUser from 'helpers/updateUser'
+import updateBook from 'helpers/updateBook'
 
 export default function () {
   return (
@@ -41,6 +42,9 @@ function BookRow(
   book: { name: string; author: string; token: string }
 ) {
   const { token } = book
+  const [bookInf, setBookInf] = useAtom(bookInfo)
+  const [bookLst] = useAtom(bookList)
+
   const getCellIndex = (e: Event) =>
     ((e.target as HTMLElement).parentElement as HTMLTableCellElement).cellIndex
   const getPlaceholder = ({ e, i }: { e: Event; i?: number }) =>
@@ -48,9 +52,6 @@ function BookRow(
       (e.currentTarget as HTMLElement).offsetParent?.children[0].children[0]
         .children[i || getCellIndex(e)].childNodes[0] as HTMLInputElement
     ).attributes.getNamedItem('data')?.value
-
-  const key = ({ e, i }: { e: Event; i?: number }) =>
-    getPlaceholder(i ? { e, i } : { e })
   const val = ({ e, i }: { e: Event; i?: number }) =>
     i
       ? (
@@ -58,21 +59,37 @@ function BookRow(
             .childNodes[0] as HTMLInputElement
         ).value
       : (e.target as HTMLInputElement).value
+  const key = ({ e, i }: { e: Event; i?: number }) =>
+    getPlaceholder(i ? { e, i } : { e })
 
   return (
     <tr
       className="hover"
       onChange={async (e) => {
-        const user: User = Object.fromEntries(
-          [1, 2, 3, 4].map((i) => [key({ e, i }), val({ e, i })])
+        const book: Book = Object.fromEntries(
+          [1, 2].map((i) => [key({ e, i }), val({ e, i })])
         )
-        await updateUser(token, user)
+        await updateBook(token, book)
       }}
     >
       <td className="text-center">{id + 1}</td>
       <TextField p={book.name} />
       <TextField p={book.author} />
-      <DeleteButton />
+      <DeleteButton
+        fn={async (e) => {
+          await deleteBook(
+            bookLst[
+              Number(
+                (
+                  (e.currentTarget as HTMLElement).parentElement?.parentElement
+                    ?.firstChild as HTMLElement
+                ).textContent
+              ) - 1
+            ].token
+          )
+          setBookInf(bookInf)
+        }}
+      />
     </tr>
   )
 }

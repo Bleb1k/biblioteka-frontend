@@ -2,7 +2,6 @@ import { Suspense } from 'preact/compat'
 import { useAtom } from 'jotai'
 import SearchField from 'components/SearchField'
 import UserRow from 'components/User'
-import filterOutValues from 'helpers/filterOutValues'
 import newUser from 'helpers/newUser'
 import userInfo from 'atoms/userInfo'
 import userList from 'atoms/userList'
@@ -48,7 +47,7 @@ function AddUser() {
         )
 
         await newUser(user)
-        setUsrInf(filterOutValues({}))
+        setUsrInf({})
       }}
     >
       Add

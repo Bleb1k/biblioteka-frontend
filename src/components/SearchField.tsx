@@ -1,3 +1,4 @@
+import { JSX } from 'preact/jsx-runtime'
 import { useAtom } from 'jotai'
 import filterOutValues from 'helpers/filterOutValues'
 import userInfo from 'atoms/userInfo'
@@ -5,9 +6,11 @@ import userInfo from 'atoms/userInfo'
 export default function ({
   p: placeholder,
   d: data,
+  // fn,
 }: {
   p?: string
   d?: string
+  // fn: JSX.DOMAttributes<HTMLInputElement>
 }) {
   let timing: number = 0
   const [usrInf, setUsrInf] = useAtom(userInfo)
