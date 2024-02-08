@@ -4,8 +4,8 @@ import { useAtom } from 'jotai'
 import DeleteButton from 'components/DeleteButton'
 import SearchField from 'components/SearchField'
 import TextField from 'components/TextField'
-import bookInfo from 'atoms/bookInfo'
 import bookList from 'atoms/bookList'
+import bookSearchInfo from 'atoms/bookSearchInfo'
 import deleteBook from 'helpers/deleteBook'
 import newBook from 'helpers/newBook'
 import updateBook from 'helpers/updateBook'
@@ -42,7 +42,7 @@ function BookRow(
   book: { name: string; author: string; token: string }
 ) {
   const { token } = book
-  const [bookInf, setBookInf] = useAtom(bookInfo)
+  const [bookInf, setBookInf] = useAtom(bookSearchInfo)
   const [bookLst] = useAtom(bookList)
 
   const getCellIndex = (e: Event) =>
@@ -95,7 +95,7 @@ function BookRow(
 }
 
 function AddBook() {
-  const [, setBookInf] = useAtom(bookInfo)
+  const [, setBookInf] = useAtom(bookSearchInfo)
   return (
     <button
       className="btn btn-xs"

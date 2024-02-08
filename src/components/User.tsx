@@ -2,9 +2,9 @@ import { User } from 'types/User'
 import { useAtom } from 'jotai'
 import DeleteButton from 'components/DeleteButton'
 import TextField from 'components/TextField'
+import bookSearchInfo from 'atoms/userSearchInfo'
 import deleteUser from 'helpers/deleteUser'
 import updateUser from 'helpers/updateUser'
-import userInfo from 'atoms/userInfo'
 import userList from 'atoms/userList'
 
 export default function UserRow(
@@ -18,7 +18,7 @@ export default function UserRow(
   }
 ) {
   const { token } = user
-  const [usrInf, setUsrInf] = useAtom(userInfo)
+  const [usrInf, setUsrInf] = useAtom(bookSearchInfo)
   const [usrLst] = useAtom(userList)
 
   const getCellIndex = (e: Event) =>

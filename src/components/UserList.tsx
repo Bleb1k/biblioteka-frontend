@@ -2,8 +2,8 @@ import { Suspense } from 'preact/compat'
 import { useAtom } from 'jotai'
 import SearchField from 'components/SearchField'
 import UserRow from 'components/User'
+import bookSearchInfo from 'atoms/userSearchInfo'
 import newUser from 'helpers/newUser'
-import userInfo from 'atoms/userInfo'
 import userList from 'atoms/userList'
 
 export default function () {
@@ -26,7 +26,7 @@ export default function () {
 }
 
 function AddUser() {
-  const [, setUsrInf] = useAtom(userInfo)
+  const [, setUsrInf] = useAtom(bookSearchInfo)
   return (
     <button
       className="btn btn-xs"

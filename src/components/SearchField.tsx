@@ -1,7 +1,7 @@
 import { JSX } from 'preact/jsx-runtime'
 import { useAtom } from 'jotai'
+import bookSearchInfo from 'atoms/userSearchInfo'
 import filterOutValues from 'helpers/filterOutValues'
-import userInfo from 'atoms/userInfo'
 
 export default function ({
   p: placeholder,
@@ -13,7 +13,7 @@ export default function ({
   // fn: JSX.DOMAttributes<HTMLInputElement>
 }) {
   let timing: number = 0
-  const [usrInf, setUsrInf] = useAtom(userInfo)
+  const [usrInf, setUsrInf] = useAtom(bookSearchInfo)
 
   return (
     <input
