@@ -4,6 +4,7 @@ import { useAtom } from 'jotai'
 import DeleteButton from 'components/DeleteButton'
 import SearchField from 'components/SearchField'
 import TextField from 'components/TextField'
+import bookChosen from 'atoms/bookChosen'
 import bookList from 'atoms/bookList'
 import bookSearchInfo from 'atoms/bookSearchInfo'
 import deleteBook from 'helpers/deleteBook'
@@ -44,6 +45,7 @@ function BookRow(
   const { token } = book
   const [bookInf, setBookInf] = useAtom(bookSearchInfo)
   const [bookLst] = useAtom(bookList)
+  const [, chooseBook] = useAtom(bookChosen)
 
   const getCellIndex = (e: Event) =>
     ((e.target as HTMLElement).parentElement as HTMLTableCellElement).cellIndex
@@ -72,7 +74,16 @@ function BookRow(
         await updateBook(token, book)
       }}
     >
-      <td className="text-center">{id + 1}</td>
+      <td className="min-w-fit">
+        <button
+          className="btn btn-xs btn-ghost w-full"
+          onClick={(e) =>
+            chooseBook(bookLst[Number(e.currentTarget.textContent) - 1 || 0])
+          }
+        >
+          {id + 1}
+        </button>
+      </td>
       <TextField p={book.name} />
       <TextField p={book.author} />
       <DeleteButton

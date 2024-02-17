@@ -5,6 +5,7 @@ import TextField from 'components/TextField'
 import bookSearchInfo from 'atoms/userSearchInfo'
 import deleteUser from 'helpers/deleteUser'
 import updateUser from 'helpers/updateUser'
+import userChosen from 'atoms/userChosen'
 import userList from 'atoms/userList'
 
 export default function UserRow(
@@ -20,6 +21,7 @@ export default function UserRow(
   const { token } = user
   const [usrInf, setUsrInf] = useAtom(bookSearchInfo)
   const [usrLst] = useAtom(userList)
+  const [, chooseUser] = useAtom(userChosen)
 
   const getCellIndex = (e: Event) =>
     ((e.target as HTMLElement).parentElement as HTMLTableCellElement).cellIndex
@@ -49,7 +51,14 @@ export default function UserRow(
         await updateUser(token, user)
       }}
     >
-      <td className="text-center">{id + 1}</td>
+      <td className="min-w-fit">
+        <button
+          className="btn btn-xs btn-ghost w-full"
+          onClick={() => chooseUser(usrLst[id || 0])}
+        >
+          Select
+        </button>
+      </td>
       <TextField p={user.firstName} />
       <TextField p={user.lastName} />
       <TextField p={user.patronymic} />

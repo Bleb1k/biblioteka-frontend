@@ -7,3 +7,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.dpd input {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));
+  color: var(--fallback-nc,oklch(var(--nc)/var(--tw-bg-opacity)));
+}
+.dpd input:hover {
+  background-color: oklch(var(--b2)/0.4);
+}

@@ -1,4 +1,5 @@
 import { route } from 'preact-router'
+import AddRecord from 'components/AddRecord'
 
 export default function () {
   const switchTab = (event: Event) =>
@@ -35,7 +36,24 @@ export default function () {
         </div>
       </div>
       <div className="navbar-end">
-        <a className="btn btn-ghost">Button</a>
+        <div className="flex items-stretch">
+          {/* add other buttons here */}
+          <div className="dropdown dropdown-bottom dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost rounded-btn"
+            >
+              Add stuff
+            </div>
+            <div
+              tabIndex={0}
+              className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box"
+            >
+              <AddRecord />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
