@@ -1,7 +1,12 @@
 import { User } from 'types/User'
+import { useAtom } from 'jotai'
 import DeleteButton from 'components/DeleteButton'
 import TextField from 'components/TextField'
+import bookSearchInfo from 'atoms/userSearchInfo'
+import deleteUser from 'helpers/deleteUser'
 import updateUser from 'helpers/updateUser'
+import userChosen from 'atoms/userChosen'
+import userList from 'atoms/userList'
 
 export default function UserRow(
   id: number,
@@ -14,9 +19,10 @@ export default function UserRow(
   }
 ) {
   const { token } = user
-  // const getUserId = (e: Event) =>
-  //   Number((e.currentTarget as HTMLElement).firstElementChild?.textContent) - 1
-  // const getUser = (e: Event) => filteredUserList[getUserId(e)] as User
+  const [usrInf, setUsrInf] = useAtom(bookSearchInfo)
+  const [usrLst] = useAtom(userList)
+  const [, chooseUser] = useAtom(userChosen)
+
   const getCellIndex = (e: Event) =>
     ((e.target as HTMLElement).parentElement as HTMLTableCellElement).cellIndex
   const getPlaceholder = ({ e, i }: { e: Event; i?: number }) =>
@@ -45,12 +51,33 @@ export default function UserRow(
         await updateUser(token, user)
       }}
     >
-      <td className="text-center">{id + 1}</td>
+      <td className="min-w-fit">
+        <button
+          className="btn btn-xs btn-ghost w-full"
+          onClick={() => chooseUser(usrLst[id || 0])}
+        >
+          Select
+        </button>
+      </td>
       <TextField p={user.firstName} />
       <TextField p={user.lastName} />
       <TextField p={user.patronymic} />
       <TextField p={user.class} />
-      <DeleteButton />
+      <DeleteButton
+        fn={async (e) => {
+          await deleteUser(
+            usrLst[
+              Number(
+                (
+                  (e.currentTarget as HTMLElement).parentElement?.parentElement
+                    ?.firstChild as HTMLElement
+                ).textContent
+              ) - 1
+            ].token
+          )
+          setUsrInf({ ...usrInf })
+        }}
+      />
     </tr>
   )
 }

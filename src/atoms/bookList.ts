@@ -1,5 +1,5 @@
 import { atom } from 'jotai'
-import bookInfo from 'atoms/bookInfo'
+import bookSearchInfo from 'atoms/bookSearchInfo'
 import searchBooks from 'helpers/searchBooks'
 
-export default atom((get) => searchBooks(get(bookInfo)))
+export default atom((get) => searchBooks(get(bookSearchInfo)))

@@ -1,29 +1,13 @@
-import { useAtom } from 'jotai'
-import deleteUser from 'helpers/deleteUser'
-import userInfo from 'atoms/userInfo'
-import userList from 'atoms/userList'
+import { JSX } from 'preact/jsx-runtime'
 
-export default function () {
-  const [usrInf, setUsrInf] = useAtom(userInfo)
-  const [usrLst] = useAtom(userList)
+export default function ({
+  fn,
+}: {
+  fn: (e: JSX.TargetedMouseEvent<HTMLButtonElement>) => Promise<void>
+}) {
   return (
     <td>
-      <button
-        className="btn btn-ghost btn-xs h-min"
-        onClick={async (e) => {
-          await deleteUser(
-            usrLst[
-              Number(
-                (
-                  (e.currentTarget as HTMLElement).parentElement?.parentElement
-                    ?.firstChild as HTMLElement
-                ).textContent
-              ) - 1
-            ].token
-          )
-          setUsrInf({ ...usrInf })
-        }}
-      >
+      <button className="btn btn-ghost btn-xs h-min" onClick={fn}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-4 w-4"

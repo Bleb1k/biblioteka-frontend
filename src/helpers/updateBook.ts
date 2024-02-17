@@ -1,10 +1,10 @@
-import { User } from 'types/User'
+import { Book } from 'types/Book'
 
-export default async function (token: string, userInfo: User) {
+export default async function (token: string, bookInfo: Book) {
   const data = await (
-    await fetch(`http://127.0.0.1:1337/user/${token}`, {
+    await fetch(`http://127.0.0.1:1337/book/${token}`, {
       method: 'PUT',
-      body: JSON.stringify(userInfo),
+      body: JSON.stringify(bookInfo),
     })
   ).json()
 

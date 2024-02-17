@@ -2075,6 +2075,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"datepickerdate@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "datepickerdate@npm:1.5.1"
+  peerDependencies:
+    preact: ^10.2.1
+  checksum: 2741b578e58b8cfbc71d53297d04ba14a1bcb887c8c8bc4ed94c98460fd4267a3e3209bbf4c42ffdb056026891aca3acc98a890a1a90c6fea435a9acf86e1812
+  languageName: node
+  linkType: hard
+
 "debug@npm:4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2":
   version: 4.3.2
   resolution: "debug@npm:4.3.2"
@@ -3054,6 +3063,7 @@ __metadata:
     autoprefixer: "npm:^10.4.16"
     cross-env: "npm:^7.0.3"
     daisyui: "npm:^4.6.0"
+    datepickerdate: "npm:^1.5.1"
     eslint: "npm:^8.56.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-import: "npm:^2.29.1"
